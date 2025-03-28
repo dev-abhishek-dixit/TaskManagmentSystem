@@ -35,7 +35,7 @@ pip install -r requirements.txt
 Note: if any Library fails then downgrate its version from requirement.txt
 
 3. Set up MySQL:
-   - Install PostgreSQL if not already installed
+   - Install Mysql if not already installed
    - Create a new database:
    ```bash
    createdb taskmanagement
