@@ -1,0 +1,423 @@
+{
+	"info": {
+		"_postman_id": "29856f02-52a7-45d7-b96d-c55eaf56aff5",
+		"name": "Task Managment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27989482",
+		"_collection_link": "https://galactic-robot-991107.postman.co/workspace/New-Team-Workspace~957d960f-8726-4b8c-a4a8-ee9d1d30732b/collection/27989482-29856f02-52a7-45d7-b96d-c55eaf56aff5?action=share&source=collection_link&creator=27989482"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"// Check if the response contains the access token",
+							"if (responseCode.code === 200 && jsonData.access) {",
+							"    // If successful, store the access token in an environment variable",
+							"    pm.collectionVariables.set(\"token\", jsonData.access);",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"abhishekdixit\",\n    \"password\":\"12345678\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{django_url}}api/token/",
+					"host": [
+						"{{django_url}}api"
+					],
+					"path": [
+						"token",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RefreshToken",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "refresh",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0MzA4NTc0OSwiaWF0IjoxNzQyOTk5MzQ5LCJqdGkiOiJjNjJlZGY1NmQxYzg0ZGYxOGQ3MGU0MjE3NDVkMzFkMCIsInVzZXJfaWQiOjF9.1I7bDK2iICSr3qxO8o_Vx6yGHaoOk3lFodpVUhnKN0U",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{django_url}}api/token/refresh/",
+					"host": [
+						"{{django_url}}api"
+					],
+					"path": [
+						"token",
+						"refresh",
+						""
+					],
+					"query": [
+						{
+							"key": "refresh",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0MzA4NTc0OSwiaWF0IjoxNzQyOTk5MzQ5LCJqdGkiOiJjNjJlZGY1NmQxYzg0ZGYxOGQ3MGU0MjE3NDVkMzFkMCIsInVzZXJfaWQiOjF9.1I7bDK2iICSr3qxO8o_Vx6yGHaoOk3lFodpVUhnKN0U",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListTask",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{django_url}}/api/tasks/",
+					"host": [
+						"{{django_url}}"
+					],
+					"path": [
+						"api",
+						"tasks",
+						""
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "completed",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateTask",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Complete Project Documentationnnnnn\",\n    \"description\": \"Write comprehensive documentation for the task management API\",\n    \"status\": \"pending\",\n    \"due_date\": \"2024-03-27T15:00:00Z\",\n    \"assigned_to_id\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{django_url}}api/tasks/",
+					"host": [
+						"{{django_url}}api"
+					],
+					"path": [
+						"tasks",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "editTask",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{django_url}}api/tasks/2",
+					"host": [
+						"{{django_url}}api"
+					],
+					"path": [
+						"tasks",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateTask",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Updated Task Title56\",\n    \"description\": \"Updated task description\",\n    \"status\": \"pending\",\n    \"due_date\": \"2024-03-28T15:00:00Z\",\n    \"assigned_to_id\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{django_url}}api/tasks/1/",
+					"host": [
+						"{{django_url}}api"
+					],
+					"path": [
+						"tasks",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteTask",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{django_url}}api/tasks/2/",
+					"host": [
+						"{{django_url}}api"
+					],
+					"path": [
+						"tasks",
+						"2",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Users List",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{django_url}}api/users",
+					"host": [
+						"{{django_url}}api"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{django_url}}api/users/1",
+					"host": [
+						"{{django_url}}api"
+					],
+					"path": [
+						"users",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateUser",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"newuser\",\n    \"password\": \"secure_password123\",\n    \"email\": \"newuser@example.com\",\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\"\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{django_url}}api/users/",
+					"host": [
+						"{{django_url}}api"
+					],
+					"path": [
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateUser",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "        {\n            \"id\": 2,\n            \"username\": \"msjsdjsd\",\n            \"email\": \"aditya123@gmail.com\",\n            \"first_name\": \"aditya\",\n            \"last_name\": \"kadam\"\n        }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{django_url}}api/users/2/",
+					"host": [
+						"{{django_url}}api"
+					],
+					"path": [
+						"users",
+						"2",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "django_url",
+			"value": "http://127.0.0.1:8001/",
+			"type": "default"
+		},
+		{
+			"key": "token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQzMDgwNjI5LCJpYXQiOjE3NDMwODAzMjksImp0aSI6IjVmYmY5NmIwNzI5NTRhOTFhODI5MGE1NGY0MjcyOWNiIiwidXNlcl9pZCI6MX0.v9uiCCneQGjadPOyrFdpulUygV4K96OxtHafM6c4_hM",
+			"type": "string"
+		}
+	]
+}
